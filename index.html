@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Remote Sensing Technologies Ltd.</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <style>
+      /* CSS Reset */
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      body { font-family: 'Noto Sans TC', sans-serif; line-height: 1.6; color: #24302b; background: #faf8f4; }
+      img { max-width: 100%; display: block; }
+      a { color: inherit; text-decoration: none; }
+
+      /* Layout */
+      header { background: #24302b; color: #fff; padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
+      .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+      .nav { display: flex; align-items: center; justify-content: space-between; }
+      .nav ul { list-style: none; display: flex; gap: 1rem; }
+      .nav li { font-weight: 600; }
+
+      .hero { display: grid; place-items: center; padding: 5rem 0 6rem; text-align: center; background: url('images/hero.jpg') center/cover fixed; color: #fff; position: relative; }
+      .hero::after { content: ""; position: absolute; inset: 0; background: rgba(36,48,43,0.6); }
+      .hero-content { position: relative; z-index: 1; max-width: 680px; }
+      .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+      .hero p { font-size: 1.125rem; }
+
+      section { padding: 4rem 0; }
+      h2.section-title { font-size: 2rem; margin-bottom: 2rem; position: relative; display: inline-block; }
+      h2.section-title::before { content: ''; position: absolute; left: 0; bottom: -.5rem; width: 50%; height: 4px; background: #24302b; }
+
+      .grid { display: grid; gap: 2rem; }
+      .grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+      .card { background: #fff; border-radius: 1rem; box-shadow: 0 4px 16px rgba(0,0,0,0.06); overflow: hidden; transition: transform .2s ease; }
+      .card:hover { transform: translateY(-6px); }
+      .card img { height: 180px; object-fit: cover; }
+      .card-body { padding: 1.5rem; }
+      .card h3 { font-size: 1.25rem; margin-bottom: .5rem; }
+
+      /* About */
+      .about p { margin-bottom: 1rem; text-align: justify; }
+
+      /* Contact */
+      form { display: grid; gap: 1rem; max-width: 600px; margin: 0 auto; }
+      input, textarea { padding: .75rem 1rem; border: 1px solid #ccc; border-radius: .5rem; font-family: inherit; }
+      textarea { resize: vertical; min-height: 150px; }
+      button { background: #24302b; color: #fff; padding: .75rem 2rem; border: none; border-radius: .5rem; cursor: pointer; font-weight: 600; transition: background .2s ease; }
+      button:hover { background: #16201c; }
+
+      /* Footer */
+      footer { text-align: center; padding: 2rem 0; background: #24302b; color: #fff; }
+      footer small { opacity: .8; }
+
+      /* Utilities */
+      .text-center { text-align: center; }
+      @media (min-width: 768px) {
+        .hero h1 { font-size: 3rem; }
+        .hero p { font-size: 1.25rem; }
+      }
+    </style>
+    <script>
+      // Smooth scroll for in-page links
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+              behavior: 'smooth'
+            });
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <!-- Header / Navigation -->
+    <header>
+      <div class="container nav">
+        <a href="#"><img src="images/logo-horizontal.png" alt="Remote Sensing Technologies Ltd." height="48" /></a>
+        <nav>
+          <ul>
+            <li><a href="#about">關於我們</a></li>
+            <li><a href="#services">服務項目</a></li>
+            <li><a href="#contact">聯絡我們</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>專業遙測整合解決方案</h1>
+        <p>以創新科技打造<br>資源開發與災害調查的新契機</p>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+      <div class="container">
+        <h2 class="section-title">關於瑞模德</h2>
+        <p>在面對氣候變遷的衝擊下，遙測技術將成為資源開發與災害潛勢調查的重要契機。</p>
+        <p>瑞模德科技（Remote Sensing Technologies Ltd.）成立於 2021 年，致力於發展遙測領域的整合方案。我們的服務涵蓋：</p>
+        <ul style="margin-left:1rem; list-style:circle inside; padding-left:.5rem;">
+          <li>無人載具（UAS）三維建模</li>
+          <li>空載光達掃描與地形點雲處理</li>
+          <li>GPS 衛星定位與自動化監測系統</li>
+          <li>合成孔徑雷達影像差分干涉技術（DInSAR）</li>
+          <li>三維展示資訊平台建置</li>
+        </ul>
+        <p>我們以科學數據分析為基礎，協助客戶投入精準的防災應用與資源開發，共同促進未來社會的永續發展。</p>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+      <div class="container">
+        <h2 class="section-title">服務項目</h2>
+        <div class="grid grid-3">
+          <div class="card">
+            <img src="images/service-uas.jpg" alt="無人載具解決方案" />
+            <div class="card-body">
+              <h3>UAS 無人載具</h3>
+              <p>高解析航拍與 3D 模型重建，提供快速、精準的場域資訊。</p>
+            </div>
+          </div>
+          <div class="card">
+            <img src="images/service-lidar.jpg" alt="空載光達掃描" />
+            <div class="card-body">
+              <h3>空載光達掃描</h3>
+              <p>整合 LiDAR 點雲處理，產製高精度地形模型。</p>
+            </div>
+          </div>
+          <div class="card">
+            <img src="images/service-gps.jpg" alt="GPS 自動化監測" />
+            <div class="card-body">
+              <h3>GPS 自動化監測</h3>
+              <p>一站式監測流程，從架設、接收到資料解算與視覺化展示。</p>
+            </div>
+          </div>
+          <div class="card">
+            <img src="images/service-sar.jpg" alt="SAR 分析技術" />
+            <div class="card-body">
+              <h3>SAR 合成孔徑雷達</h3>
+              <p>透過 DInSAR 分析，掌握地表位移速率與潛在滑動區域。</p>
+            </div>
+          </div>
+          <div class="card">
+            <img src="images/service-3d-platform.jpg" alt="3D 模型展示平台" />
+            <div class="card-body">
+              <h3>3D 模型展示平台</h3>
+              <p>將空間資料整合於網路平台，支援互動式 3D 可視化與分享。</p>
+            </div>
+          </div>
+          <div class="card">
+            <img src="images/service-consult.jpg" alt="技術顧問服務" />
+            <div class="card-body">
+              <h3>技術顧問服務</h3>
+              <p>依據專案需求，提供遙測技術規劃與系統整合諮詢。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <div class="container text-center">
+        <h2 class="section-title">聯絡我們</h2>
+        <p>若需諮詢服務，歡迎留下您的資訊，我們將盡快與您聯繫。</p>
+        <form action="https://formspree.io/f/your-form-id" method="POST">
+          <input type="text" name="name" placeholder="姓名" required />
+          <input type="email" name="email" placeholder="電子信箱" required />
+          <textarea name="message" placeholder="詢問內容" required></textarea>
+          <button type="submit">提交</button>
+        </form>
+        <p style="margin-top:2rem;">
+          南投縣埔里鎮大學路 1 號｜0985-970-886｜<a href="mailto:nokilin@gmail.com">nokilin@gmail.com</a>
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <small>© 2021 Remote Sensing Technologies Ltd. All rights reserved.</small>
+      </div>
+    </footer>
+  </body>
+</html>

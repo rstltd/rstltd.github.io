@@ -1,4 +1,0 @@
-baseURL = 'https://github.com/rstltd'
-languageCode = 'zh-tw'
-title = 'My New Hugo Site'
-theme = "paige"

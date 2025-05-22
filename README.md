@@ -7,3 +7,4 @@ hugo server -D
 
 export PATH=/opt/homebrew/bin:$PATH
 
+https://jianzhnie.github.io/post/hugo_site/
