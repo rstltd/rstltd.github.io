@@ -4,3 +4,6 @@ https://rstltd.github.io/
 cd RSTLtd_HomePage
 hugo server -D
 ```
+
+export PATH=/opt/homebrew/bin:$PATH
+
