@@ -1,38 +1,60 @@
-name: GitHub Pages
+# =============================================================
+# GitHub Actions workflow: Deploy static site to GitHub Pages
+# -------------------------------------------------------------
+# * 觸發條件：push 到 main 分支（或手動執行）
+# * 適用於純靜態內容（HTML/CSS/JS）。
+#   如有編譯步驟（例如 React/Vite 等），可在「Build site」區塊加入指令。
+# * 透過官方 actions/configure-pages + deploy-pages 部署到 gh-pages
+# =============================================================
+
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main  # Set a branch name to trigger deployment
-  pull_request:
+    branches: [ main ]   # 依你的主要開發分支修改
+  workflow_dispatch:     # 手動觸發
+
+permissions:
+  contents: read
+  pages: write           # 對 Pages 具有寫入權限
+  id-token: write        # OIDC 身分驗證
+
+# 確保一次只有一個部署
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   deploy:
-    runs-on: ubuntu-22.04
-    permissions:
-      contents: write
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
+    runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: true  # Fetch Hugo themes (true OR recursive)
-          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+      # 1) 取出原始碼
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: '0.110.0'
+      # 2) （選擇性）放在此處加入建置指令，例如：
+      #    - name: Build site
+      #      run: |
+      #        npm ci
+      #        npm run build
+      #    並把下方 publish_dir 改成對應輸出資料夾，預設用根目錄。
 
-      - name: Build
-        run: hugo --minify
+      # 3) 建立 .nojekyll，避免 GitHub Pages 把 _ 開頭資料夾當成 Jekyll 檔案忽略
+      - name: Disable Jekyll
+        run: echo "" > .nojekyll
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        # If you're changing the branch from main,
-        # also change the `main` in `refs/heads/main`
-        # below accordingly.
-        if: github.ref == 'refs/heads/main'
+      # 4) 設定 GitHub Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      # 5) 上傳要部署的檔案
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+          path: .   # 若你有 build，這裡改成例如 ./dist
+
+      # 6) 正式部署
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
