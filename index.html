@@ -17,8 +17,9 @@
       header { background: #24302b; color: #fff; padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
       .container { width: 90%; max-width: 1200px; margin: 0 auto; }
       .nav { display: flex; align-items: center; justify-content: space-between; }
-      .nav ul { list-style: none; display: flex; gap: 1rem; }
+      .nav ul { list-style: none; display: flex; gap: 1rem; flex-wrap: wrap; }
       .nav li { font-weight: 600; }
+      .nav a:hover { opacity: .85; }
 
       .hero { display: grid; place-items: center; padding: 5rem 0 6rem; text-align: center; background: url('images/hero.jpg') center/cover fixed; color: #fff; position: relative; }
       .hero::after { content: ""; position: absolute; inset: 0; background: rgba(36,48,43,0.6); }
@@ -32,7 +33,7 @@
 
       .grid { display: grid; gap: 2rem; }
       .grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-      .card { background: #fff; border-radius: 1rem; box-shadow: 0 4px 16px rgba(0,0,0,0.06); overflow: hidden; transition: transform .2s ease; }
+      .card { background: #fff; border-radius: 1rem; box-shadow: 0 4px 16px rgba(0,0,0,0.06); overflow: hidden; transition: transform .2s ease; color: inherit; }
       .card:hover { transform: translateY(-6px); }
       .card img { height: 180px; object-fit: cover; }
       .card-body { padding: 1.5rem; }
@@ -60,14 +61,15 @@
       }
     </style>
     <script>
-      // Smooth scroll for in-page links
+      // Smooth scroll for in-page links (hash links within same page)
       document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
           anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-              behavior: 'smooth'
-            });
+            const targetId = this.getAttribute('href');
+            if (targetId.length > 1) { // skip if just "#"
+              e.preventDefault();
+              document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+            }
           });
         });
       });
@@ -82,6 +84,8 @@
           <ul>
             <li><a href="#about">關於我們</a></li>
             <li><a href="#services">服務項目</a></li>
+            <!-- 新增 GPS 監測頁面的同分頁連結 -->
+            <li><a href="gps.html">GPS 監測</a></li>
             <li><a href="#contact">聯絡我們</a></li>
           </ul>
         </nav>
@@ -132,13 +136,14 @@
               <p>整合 LiDAR 點雲處理，產製高精度地形模型。</p>
             </div>
           </div>
-          <div class="card">
+          <!-- 把 GPS 卡片改為錨點連結，同分頁開啟 gps.html -->
+          <a class="card" href="gps.html">
             <img src="images/service-gps.jpg" alt="GPS 自動化監測" />
             <div class="card-body">
               <h3>GPS 自動化監測</h3>
               <p>一站式監測流程，從架設、接收到資料解算與視覺化展示。</p>
             </div>
-          </div>
+          </a>
           <div class="card">
             <img src="images/service-sar.jpg" alt="SAR 分析技術" />
             <div class="card-body">
@@ -169,7 +174,7 @@
       <div class="container text-center">
         <h2 class="section-title">聯絡我們</h2>
         <p>若需諮詢服務，歡迎留下您的資訊，我們將盡快與您聯繫。</p>
-        <form action="https://formspree.io/f/your-form-id" method="POST">
+        <form action="https://formspree.io/f/mwpojllw" method="POST">
           <input type="text" name="name" placeholder="姓名" required />
           <input type="email" name="email" placeholder="電子信箱" required />
           <textarea name="message" placeholder="詢問內容" required></textarea>
