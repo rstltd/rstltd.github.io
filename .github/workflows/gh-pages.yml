@@ -1,31 +1,32 @@
 # =============================================================
-# GitHub Actions workflow: Deploy static site to GitHub Pages
+# GitHub Actions workflow: Deploy static site to GitHub Pages
 # -------------------------------------------------------------
 # * 觸發條件：push 到 main 分支（或手動執行）
 # * 適用於純靜態內容（HTML/CSS/JS）。
-#   如有編譯步驟（例如 React/Vite 等），可在「Build site」區塊加入指令。
-# * 透過官方 actions/configure-pages + deploy-pages 部署到 gh-pages
+#   如有打包流程 (React/Vite 等)，請在 Build 階段加入指令並
+#   調整 upload-pages-artifact 的 path。
 # =============================================================
 
 name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]   # 依你的主要開發分支修改
-  workflow_dispatch:     # 手動觸發
+    branches: [ main ]        # 依你的主要開發分支修改
+  workflow_dispatch:          # 手動觸發
 
 permissions:
   contents: read
-  pages: write           # 對 Pages 具有寫入權限
-  id-token: write        # OIDC 身分驗證
+  pages: write                # 允許寫入 GitHub Pages
+  id-token: write             # OIDC 身分驗證（Pages 需要）
 
-# 確保一次只有一個部署
+# 同一時間只允許一個部署進行
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  # ---------- Build（可選） ----------
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,28 +34,36 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      # 2) （選擇性）放在此處加入建置指令，例如：
+      # 2) (如需) 前端打包；沒打包就跳過
       #    - name: Build site
       #      run: |
       #        npm ci
       #        npm run build
-      #    並把下方 publish_dir 改成對應輸出資料夾，預設用根目錄。
+      #    # 若有 build，下面 path 請改成 ./dist 或 build 目錄
 
-      # 3) 建立 .nojekyll，避免 GitHub Pages 把 _ 開頭資料夾當成 Jekyll 檔案忽略
+      # 3) 建立 .nojekyll，避免 Pages 誤判 Jekyll
       - name: Disable Jekyll
         run: echo "" > .nojekyll
 
-      # 4) 設定 GitHub Pages
+      # 4) 設定 Pages 環境
       - name: Setup Pages
         uses: actions/configure-pages@v3
 
-      # 5) 上傳要部署的檔案
-      - name: Upload artifact
+      # 5) 將站點檔案打包成 artifact（新版 v2）
+      - name: Upload static files
         uses: actions/upload-pages-artifact@v2
         with:
-          path: .   # 若你有 build，這裡改成例如 ./dist
+          path: .              # 若有 build，改成 ./dist
 
-      # 6) 正式部署
+  # ---------- Deploy ----------
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+        id: deploy
+        uses: actions/deploy-pages@v4
